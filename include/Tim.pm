@@ -13,11 +13,11 @@ sub parse_commands {
 }
 
 sub parse_msg {
-  my ($who, $channel) = @_;
-  my $nick    = (split /!/, $who)[0];
-  my $time_sent      = scalar localtime;
+  my $who       = shift;
+  my $nick      = (split /!/, $who)[0];
+  my $time_sent = scalar localtime;
 
-  return ($nick, $channel, $time_sent);
+  return ($nick, $time_sent);
 }
 
 1;

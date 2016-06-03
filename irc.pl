@@ -88,7 +88,8 @@ sub reconnect {
 # Parse it for commands.
 sub on_public {
   my ($kernel, $who, $where, $msg) = @_[KERNEL, ARG0, ARG1, ARG2];
-  my ($nick, $channel, $time_sent) = Tim::parse_msg($who, $where->[0]);
+  my ($nick, $time_sent) = Tim::parse_msg($who);
+  my $channel = $where->[0];
 
   say "[$time_sent] <$nick:$channel> $msg";
   Tim::parse_commands($msg);

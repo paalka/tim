@@ -6,7 +6,6 @@ use warnings;
 use lib 'include/';
 
 use POE qw(Component::IRC);
-
 use Tim;
 
 my $irc = POE::Component::IRC->spawn();

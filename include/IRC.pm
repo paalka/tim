@@ -45,10 +45,10 @@ sub on_connect {
       $irc->yield(join => $channel);
   }
 
-  # Ensure that the bot pings itself every 300 seconds, so that we avoid
-  # timeouts.
+  # Ensure that the bot pings itself every 'auto_ping_delay' seconds, so that
+  # we avoid timeouts.
   $heap->{seen_traffic} = 1;
-  $kernel->delay(autoping => 300);
+  $kernel->delay(autoping => $Tim::Config::auto_ping_delay);
 }
 
 # Ping ourself to avoid timeouts.
@@ -61,7 +61,7 @@ sub do_auto_self_ping {
     }
 
     $heap->{seen_traffic} = 0;
-    $kernel->delay(autoping => 300);
+    $kernel->delay(autoping => $Tim::Config::auto_ping_delay);
 }
 
 # Attempt to reconnect after 'reconnect_wait_sec' seconds.

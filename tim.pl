@@ -23,6 +23,7 @@ POE::Session->create(
     irc_001           => \&Tim::IRC::on_connect,
     irc_public        => \&Tim::IRC::on_public,
   },
+  # Store the irc component in the heap, so that it is easily accessible.
   heap => { irc => $irc },
 );
 

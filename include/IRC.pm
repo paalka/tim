@@ -1,35 +1,17 @@
 #!/usr/local/bin/perl
-
 use 5.020;
 use strict;
 use warnings;
-use lib 'include/';
 
-use POE;
-use POE::Component::IRC;
+use POE qw(Component::IRC);
 
-use Tim;
-
-my ($irc) = POE::Component::IRC->spawn();
-
-# The create() call specifies the events the bot
-# knows about and the functions that will handle those events.
-say "Creating session...";
-POE::Session->create(
-  inline_states => {
-    _start            => \&start_bot,
-    irc_disconnected  => \&reconnect,
-    irc_error         => \&reconnect,
-    irc_socketerr     => \&reconnect,
-    autoping          => \&do_auto_self_ping,
-    irc_001           => \&on_connect,
-    irc_public        => \&on_public,
-  },
-);
+package Tim::IRC;
 
 sub connect_to_server {
-  my ($nick, $username, $ircname, $server, $port) = @_;
+  my ($heap, $nick, $username, $ircname, $server, $port) = @_;
   say "Connecting to server: $server using port $port";
+  my $irc = Tim::get_irc_component($heap);
+
   $irc->yield(
     connect => {
       Nick     => $nick,
@@ -42,17 +24,21 @@ sub connect_to_server {
 }
 
 sub start_bot {
+  my $heap = @_[POE::Session::HEAP];
+  my $irc = Tim::get_irc_component($heap);
   # Register which IRC related events to listen for (i.e. join, part, etc).
   $irc->yield(register => "all");
 
-  connect_to_server($Tim::Config::nick,
+  connect_to_server($heap, $Tim::Config::nick,
                     $Tim::Config::username, $Tim::Config::real_name,
                     $Tim::Config::server, $Tim::Config::server_port);
 }
 
 # The bot has successfully connected to a server
 sub on_connect {
-  my ($kernel, $heap) = @_[KERNEL, HEAP];
+  my ($kernel, $heap) = @_[POE::Session::KERNEL, POE::Session::HEAP];
+  my $irc = Tim::get_irc_component($heap);
+
   say "Joining channels...";
   for my $channel (@Tim::Config::channels) {
       say "Joining $channel...";
@@ -67,7 +53,8 @@ sub on_connect {
 
 # Ping ourself to avoid timeouts.
 sub do_auto_self_ping {
-    my ($kernel, $heap) = @_[KERNEL, HEAP];
+    my ($kernel, $heap) = @_[POE::Session::KERNEL, POE::Session::HEAP];
+    my $irc = Tim::get_irc_component($heap);
 
     if (!$heap->{seen_traffic}) {
         $kernel->post(poco_irc => userhost => $Tim::Config::nick)
@@ -79,7 +66,7 @@ sub do_auto_self_ping {
 
 # Attempt to reconnect after 'reconnect_wait_sec' seconds.
 sub reconnect {
-    my $kernel = $_[KERNEL];
+    my $kernel = $_[POE::Session::KERNEL];
 
     $kernel->delay(autoping => undef);
     $kernel->delay(connect => $Tim::Config::reconnect_wait_sec);
@@ -88,7 +75,11 @@ sub reconnect {
 # The bot has received a public message.
 # Parse it for commands.
 sub on_public {
-  my ($kernel, $who, $where, $msg) = @_[KERNEL, ARG0, ARG1, ARG2];
+  my ($kernel, $who, $where, $msg) = @_[POE::Session::KERNEL,
+                                        POE::Session::ARG0,
+                                        POE::Session::ARG1,
+                                        POE::Session::ARG2];
+
   my ($nick, $time_sent) = Tim::parse_msg($who);
   my $channel = $where->[0];
 
@@ -96,5 +87,4 @@ sub on_public {
   Tim::parse_commands($msg);
 }
 
-$poe_kernel->run();
-exit 0;
+1;

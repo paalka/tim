@@ -20,7 +20,7 @@ POE::Session->create(
     _start            => \&start_bot,
     irc_disconnected  => \&reconnect,
     irc_error         => \&reconnect,
-     irc_socketerr    => \&reconnect,
+    irc_socketerr     => \&reconnect,
     irc_001           => \&on_connect,
     irc_public        => \&on_public,
   },

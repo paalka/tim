@@ -10,8 +10,6 @@ use Tim;
 
 my $irc = POE::Component::IRC->spawn();
 
-# The create() call specifies the events the bot
-# knows about and the functions that will handle those events.
 say "Creating session...";
 POE::Session->create(
   inline_states => {

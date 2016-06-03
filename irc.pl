@@ -77,6 +77,7 @@ sub do_auto_self_ping {
     $kernel->delay(autoping => 300);
 }
 
+# Attempt to reconnect after 'reconnect_wait_sec' seconds.
 sub reconnect {
     my $kernel = $_[KERNEL];
 

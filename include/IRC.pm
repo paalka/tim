@@ -26,6 +26,7 @@ sub connect_to_server {
 sub start_bot {
   my $heap = @_[POE::Session::HEAP];
   my $irc = Tim::get_irc_component($heap);
+
   # Register which IRC related events to listen for (i.e. join, part, etc).
   $irc->yield(register => "all");
 

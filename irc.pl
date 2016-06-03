@@ -21,6 +21,7 @@ POE::Session->create(
     irc_disconnected  => \&reconnect,
     irc_error         => \&reconnect,
     irc_socketerr     => \&reconnect,
+    autoping          => \&do_auto_self_ping,
     irc_001           => \&on_connect,
     irc_public        => \&on_public,
   },
@@ -51,23 +52,34 @@ sub start_bot {
 
 # The bot has successfully connected to a server
 sub on_connect {
+  my ($kernel, $heap) = @_[KERNEL, HEAP];
   say "Joining channels...";
   for my $channel (@Tim::Config::channels) {
       say "Joining $channel...";
       $irc->yield(join => $channel);
   }
+
+  # Ensure that the bot pings itself every 300 seconds, so that we avoid
+  # timeouts.
+  $heap->{seen_traffic} = 1;
+  $kernel->delay(autoping => 300);
 }
 
-sub do_autoping {
+# Ping ourself to avoid timeouts.
+sub do_auto_self_ping {
     my ($kernel, $heap) = @_[KERNEL, HEAP];
-    $kernel->post(poco_irc => userhost => $Tim::Config::nick)
-                 unless $heap->{seen_traffic};
+
+    if (!$heap->{seen_traffic}) {
+        $kernel->post(poco_irc => userhost => $Tim::Config::nick)
+    }
+
     $heap->{seen_traffic} = 0;
     $kernel->delay(autoping => 300);
 }
 
 sub reconnect {
     my $kernel = $_[KERNEL];
+
     $kernel->delay(autoping => undef);
     $kernel->delay(connect => $Tim::Config::reconnect_wait_sec);
 }

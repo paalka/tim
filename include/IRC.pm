@@ -76,16 +76,19 @@ sub reconnect {
 # The bot has received a public message.
 # Parse it for commands.
 sub on_public {
-  my ($kernel, $who, $where, $msg) = @_[POE::Session::KERNEL,
-                                        POE::Session::ARG0,
-                                        POE::Session::ARG1,
-                                        POE::Session::ARG2];
+  my ($kernel, $heap, $who, $where, $msg) = @_[POE::Session::KERNEL,
+                                               POE::Session::HEAP,
+                                               POE::Session::ARG0,
+                                               POE::Session::ARG1,
+                                               POE::Session::ARG2];
 
   my ($nick, $time_sent) = Tim::parse_msg($who);
   my $channel = $where->[0];
 
   say "[$time_sent] <$nick:$channel> $msg";
   Tim::parse_commands($msg);
+
+  $heap->{seen_traffic} = 1;
 }
 
 1;

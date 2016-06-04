@@ -18,7 +18,8 @@ POE::Session->create(
     irc_socketerr     => \&Tim::IRC::reconnect,
     autoping          => \&Tim::IRC::do_auto_self_ping,
     irc_001           => \&Tim::IRC::on_connect,
-    irc_public        => \&Tim::IRC::on_public,
+    irc_public        => \&Tim::IRC::message_handler,
+    irc_msg           => \&Tim::IRC::message_handler,
   },
   # Store the irc component in the heap, so that it is easily accessible.
   heap => { irc => $irc },

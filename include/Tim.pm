@@ -15,7 +15,6 @@ sub get_irc_component {
 
 sub parse_commands {
     my $msg = shift;
-    print $msg;
 }
 
 sub parse_msg {

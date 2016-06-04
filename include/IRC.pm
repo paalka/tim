@@ -75,7 +75,7 @@ sub reconnect {
 
 # The bot has received a public message.
 # Parse it for commands.
-sub on_public {
+sub message_handler  {
   my ($kernel, $heap, $who, $where, $msg) = @_[POE::Session::KERNEL,
                                                POE::Session::HEAP,
                                                POE::Session::ARG0,

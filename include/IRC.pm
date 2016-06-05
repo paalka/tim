@@ -7,10 +7,15 @@ use POE qw(Component::IRC);
 
 package Tim::IRC;
 
+sub get_irc_component {
+    my $heap = shift;
+    return $heap->{irc};
+}
+
 sub connect_to_server {
   my ($heap, $nick, $username, $ircname, $server, $port) = @_;
   say "Connecting to server: $server using port $port";
-  my $irc = Tim::get_irc_component($heap);
+  my $irc = get_irc_component($heap);
 
   $irc->yield(
     connect => {
@@ -25,7 +30,7 @@ sub connect_to_server {
 
 sub start_bot {
   my $heap = @_[POE::Session::HEAP];
-  my $irc = Tim::get_irc_component($heap);
+  my $irc = get_irc_component($heap);
 
   # Register which IRC related events to listen for (i.e. join, part, etc).
   $irc->yield(register => "all");
@@ -38,7 +43,7 @@ sub start_bot {
 # The bot has successfully connected to a server
 sub on_connect {
   my ($kernel, $heap) = @_[POE::Session::KERNEL, POE::Session::HEAP];
-  my $irc = Tim::get_irc_component($heap);
+  my $irc = get_irc_component($heap);
 
   say "Joining channels...";
   for my $channel (@Tim::Config::channels) {
@@ -55,7 +60,7 @@ sub on_connect {
 # Ping ourself to avoid timeouts.
 sub do_auto_self_ping {
     my ($kernel, $heap) = @_[POE::Session::KERNEL, POE::Session::HEAP];
-    my $irc = Tim::get_irc_component($heap);
+    my $irc = get_irc_component($heap);
 
     if (!$heap->{seen_traffic}) {
         $kernel->post(poco_irc => userhost => $Tim::Config::nick)

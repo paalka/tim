@@ -8,11 +8,6 @@ package Tim;
 require 'config.pm';
 require 'IRC.pm';
 
-sub get_irc_component {
-    my $heap = shift;
-    return $heap->{irc};
-}
-
 sub parse_commands {
     my $msg = shift;
 }

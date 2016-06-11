@@ -15,8 +15,19 @@ sub trim_whitespace {
     return $string;
 }
 
+# Parse commands of the form "!command arg1 arg2 ...".
 sub parse_command {
     my $msg = shift;
+
+    if ($msg =~ /!(?<command>\w+)(?<args>.*)/g) {
+        my $command = trim_whitespace($+{command});
+        my @args = split(/ /, trim_whitespace($+{args}));
+
+        return ($command, @args);
+    }
+
+    # No command was found.
+    return;
 }
 
 sub parse_msg {

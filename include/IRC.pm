@@ -97,4 +97,17 @@ sub message_handler  {
   $heap->{seen_traffic} = 1;
 }
 
+sub send_msg {
+    my ($who, $msg, $channel, $heap) = @_;
+    my $irc = get_irc_component($heap);
+
+    if (defined($who)) {
+        $msg = $who . ": " . $msg;
+    }
+
+    $irc->yield(privmsg => $channel => $msg);
+
+    return;
+}
+
 1;

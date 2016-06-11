@@ -8,6 +8,13 @@ package Tim;
 require 'config.pm';
 require 'IRC.pm';
 
+# Trim leading and trailing whitespace.
+sub trim_whitespace {
+    my $string = shift;
+    $string =~ s/^\s+|\s+$//g;
+    return $string;
+}
+
 sub parse_command {
     my $msg = shift;
 }

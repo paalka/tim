@@ -21,7 +21,7 @@ sub trim_whitespace {
 sub parse_command {
     my $msg = shift;
 
-    if ($msg =~ /!(?<command>\w+)(?<args>.*)/g) {
+    if ($msg =~ /!(?<command>\S+)(?<args>.*)/g) {
         my $command = trim_whitespace($+{command});
         my @args = split(/ /, trim_whitespace($+{args}));
 

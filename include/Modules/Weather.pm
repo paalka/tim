@@ -26,10 +26,19 @@ sub construct_location_url {
 
 sub generate_weather_report {
     my ($location, @args) = @_;
+
+    if (scalar @args > 0) {
+        return 'Wrong number of arguments! Usage: !<cmd> $location.'
+    }
+
     my $location_subdir = '/sted/Norge/Sør-trøndelag/Trondheim/Studentersamfundet/';
 
     if (defined($location)) {
         $location_subdir = construct_location_url($location);
+    }
+
+    if (!defined($location_subdir)) {
+        return "Could not find the weather for $location!";
     }
 
     my $base_url = 'https://www.yr.no';

@@ -88,7 +88,7 @@ sub message_handler  {
                                                POE::Session::ARG1,
                                                POE::Session::ARG2];
 
-  my ($nick, $time_sent) = Tim::parse_msg($who);
+  my ($nick, $time_sent) = Tim::parse_sender($who);
   my $channel = $where->[0];
 
   say "[$time_sent] <$nick:$channel> $msg";

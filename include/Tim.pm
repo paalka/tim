@@ -30,7 +30,7 @@ sub parse_command {
     return;
 }
 
-sub parse_msg {
+sub parse_sender {
   my $who       = shift;
   my $nick      = (split /!/, $who)[0];
   my $time_sent = scalar localtime;

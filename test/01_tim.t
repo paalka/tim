@@ -23,6 +23,6 @@ my ($cmd_invalid, @args_invalid) = Tim::parse_command("This is not a valid comma
 ok(!defined($cmd_invalid), "No command is returned if the command is invalid.");
 ok(!@args_invalid, "No arguments is returned if the command is invalid.");
 
-my ($nick, $time_sent) = Tim::parse_sender("nick!~nick@127.0.0.1");
+my ($nick, $time_sent) = Tim::parse_sender('nick!~nick@127.0.0.1');
 is($nick, "nick", "The nick was obtained correctly.");
 is($time_sent, scalar localtime, "The time the message was received was obtained correctly.");

@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use utf8;
 
+use LWP::UserAgent;
+
 package Tim;
 require 'config.pm';
 require 'IRC.pm';
@@ -36,6 +38,22 @@ sub parse_sender {
   my $time_sent = scalar localtime;
 
   return ($nick, $time_sent);
+}
+
+sub make_request {
+    my $url = shift;
+
+    my $ua = LWP::UserAgent->new;
+    my $req = HTTP::Request->new(GET => $url);
+    my $resp = $ua->request($req);
+
+    if ($resp->is_error) {
+        say "HTTP GET error code: ", $resp->code, "\n";
+        say "HTTP GET error message: ", $resp->message, "\n";
+        return;
+    }
+
+    return $resp->decoded_content;
 }
 
 1;

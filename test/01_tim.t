@@ -1,11 +1,12 @@
 use strict;
 use warnings;
+use utf8;
 use Test::More tests => 6;
 
 use Tim;
 
-my $msg_whitespace = "  !command arg1 arg2 arg3  ";
-my $msg_no_whitespace = "!command arg1 arg2 arg3";
+my $msg_whitespace = "  !vær arg1 arg2 arg3  ";
+my $msg_no_whitespace = "!vær arg1 arg2 arg3";
 
 # Make sure that whitespace is removed properly.
 is(Tim::trim_whitespace($msg_whitespace), $msg_no_whitespace, "Leading and trailing whitespace is removed properly.");
@@ -13,7 +14,7 @@ is(Tim::trim_whitespace($msg_whitespace), $msg_no_whitespace, "Leading and trail
 # See whether the function is capable of parsing commands properly.
 my ($cmd, @args) = Tim::parse_command($msg_whitespace);
 
-my $expected_cmd = "command";
+my $expected_cmd = "vær";
 my @expected_args = ("arg1", "arg2", "arg3");
 
 is($cmd, $expected_cmd, "The command is properly parsed.");

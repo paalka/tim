@@ -55,3 +55,5 @@ sub generate_weather_report {
                                                          $wind_speed,
                                                          $rain_mm);
 }
+
+1;

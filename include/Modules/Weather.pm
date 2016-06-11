@@ -8,7 +8,6 @@ package Modules::Weather;
 
 use JSON::MaybeXS;
 use XML::Simple qw(:strict);
-use Data::Dumper;
 
 use lib '../';
 use Tim;

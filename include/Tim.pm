@@ -35,9 +35,8 @@ sub parse_command {
 sub parse_sender {
   my $who       = shift;
   my $nick      = (split /!/, $who)[0];
-  my $time_sent = scalar localtime;
 
-  return ($nick, $time_sent);
+  return $nick;
 }
 
 sub make_request {
@@ -48,12 +47,18 @@ sub make_request {
     my $resp = $ua->request($req);
 
     if ($resp->is_error) {
-        say "HTTP GET error code: ", $resp->code, "\n";
-        say "HTTP GET error message: ", $resp->message, "\n";
+        log_message("HTTP GET error code: ", $resp->code, "\n");
+        log_message("HTTP GET error message: ", $resp->message, "\n");
         return;
     }
 
     return $resp->decoded_content;
+}
+
+sub log_message {
+    my $msg = shift;
+    my $current_time = scalar localtime;
+    say "[$current_time] $msg";
 }
 
 1;

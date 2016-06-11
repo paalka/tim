@@ -15,7 +15,7 @@ sub get_irc_component {
 
 sub connect_to_server {
   my ($heap, $nick, $username, $ircname, $server, $port) = @_;
-  say "Connecting to server: $server using port $port";
+  Tim::log_message("Connecting to server: $server using port $port");
   my $irc = get_irc_component($heap);
 
   $irc->yield(
@@ -46,9 +46,9 @@ sub on_connect {
   my ($kernel, $heap) = @_[POE::Session::KERNEL, POE::Session::HEAP];
   my $irc = get_irc_component($heap);
 
-  say "Joining channels...";
+  Tim::log_message("Joining channels...");
   for my $channel (@Tim::Config::channels) {
-      say "Joining $channel...";
+      Tim::log_message("Joining $channel...");
       $irc->yield(join => $channel);
   }
 
@@ -88,13 +88,14 @@ sub message_handler  {
                                                POE::Session::ARG1,
                                                POE::Session::ARG2];
 
-  my ($nick, $time_sent) = Tim::parse_sender($who);
+  $heap->{seen_traffic} = 1;
+
+  my $nick = Tim::parse_sender($who);
   my $channel = $where->[0];
 
-  say "[$time_sent] <$nick:$channel> $msg";
+  Tim::log_message("<$nick:$channel> $msg");
   my ($cmd, @args) = Tim::parse_command($msg);
 
-  $heap->{seen_traffic} = 1;
 }
 
 sub send_msg {

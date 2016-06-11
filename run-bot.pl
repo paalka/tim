@@ -10,7 +10,7 @@ use Tim;
 
 my $irc = POE::Component::IRC->spawn();
 
-say "Creating session...";
+Tim::log_message("Creating session...");
 POE::Session->create(
   inline_states => {
     _start            => \&Tim::IRC::start_bot,

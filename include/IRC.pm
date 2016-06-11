@@ -99,7 +99,7 @@ sub message_handler  {
 
   my $command_handler = $Tim::Config::command_handlers->{Encode::decode_utf8($cmd)};
   if (defined($command_handler)) {
-      my $response = $command_handler->(undef);
+      my $response = $command_handler->(@args);
       send_msg(undef, $response, $channel, $heap);
   } else {
       send_msg(undef, "Unrecognized command! Write !help to show the available commands.", $channel, $heap);

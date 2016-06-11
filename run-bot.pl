@@ -3,6 +3,7 @@ use 5.020;
 use strict;
 use warnings;
 use lib 'include/';
+use utf8;
 
 use POE qw(Component::IRC);
 use Tim;

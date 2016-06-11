@@ -92,7 +92,7 @@ sub message_handler  {
   my $channel = $where->[0];
 
   say "[$time_sent] <$nick:$channel> $msg";
-  Tim::parse_commands($msg);
+  my ($cmd, @args) = Tim::parse_command($msg);
 
   $heap->{seen_traffic} = 1;
 }

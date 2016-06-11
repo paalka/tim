@@ -8,7 +8,7 @@ package Tim;
 require 'config.pm';
 require 'IRC.pm';
 
-sub parse_commands {
+sub parse_command {
     my $msg = shift;
 }
 

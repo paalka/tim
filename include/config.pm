@@ -3,6 +3,13 @@ package Tim::Config;
 use 5.020;
 use strict;
 use warnings;
+use utf8;
+
+use Modules::Weather;
+
+our $command_handlers = {
+    "vær" => \&Modules::Weather::generate_weather_report,
+};
 
 our @channels = ("#956f7fd1ae68f");
 our $server = "irc.freenode.net";

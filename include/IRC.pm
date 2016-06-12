@@ -97,6 +97,10 @@ sub message_handler  {
   Tim::log_message("<$nick:$channel> $msg");
   my ($cmd, @args) = Tim::parse_command($msg);
 
+  if (!defined($cmd)) {
+      return;
+  }
+
   my $command_handler = $Tim::Config::command_handlers->{Encode::decode_utf8($cmd)};
   if (defined($command_handler)) {
       my $response = $command_handler->(@args);

@@ -48,6 +48,7 @@ sub generate_weather_report {
     my $xml_ref = XMLin($raw_forecast_xml, KeyAttr => ['forecast'], ForceArray => ['forecast']);
 
     my $location_name = $xml_ref->{'location'}->{'name'};
+    my $country = $xml_ref->{'location'}->{'country'};
     my $current_day_ref = $xml_ref->{'forecast'}[0]->{'tabular'}->{'time'}[0];
 
     # Wind speed in m/s
@@ -59,10 +60,12 @@ sub generate_weather_report {
     # Expected rain in mm
     my $rain_mm = $current_day_ref->{'precipitation'}->{'value'};
 
-    return sprintf("%s: %s °C, %s (%s m/s), %s mm regn", $location_name, $temp,
-                                                         $wind_speed_describ,
-                                                         $wind_speed,
-                                                         $rain_mm);
+    return sprintf("%s, %s: %s °C, %s (%s m/s), %s mm regn", $location_name,
+                                                             $country,
+                                                             $temp,
+                                                             $wind_speed_describ,
+                                                             $wind_speed,
+                                                             $rain_mm);
 }
 
 1;

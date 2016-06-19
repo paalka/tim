@@ -25,3 +25,4 @@ our $real_name = "kek";
 
 our $reconnect_wait_sec = 60;
 our $auto_ping_delay = 300;
+1;

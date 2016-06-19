@@ -29,6 +29,6 @@ our $auto_ping_delay = 300;
 # Load the local config file, if it exists.
 eval {
     require 'local.config.pm';
-};
+}; die $@ if $@;
 
 1;

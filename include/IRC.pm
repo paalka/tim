@@ -92,6 +92,8 @@ sub message_handler  {
   $heap->{seen_traffic} = 1;
 
   my $nick = Tim::parse_sender($who);
+  return unless ($nick ne $Tim::Config::nick);
+
   my $channel = $where->[0];
 
   Tim::log_message("<$nick:$channel> $msg");

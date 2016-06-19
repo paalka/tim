@@ -14,6 +14,7 @@ The bot is configured by creating a file called `local.config.pm` in the
 * POE::Component
 * JSON::MaybeXS
 * XML::Simple
+* Schedule::Cron
 * Test::More
 * Devel::Cover
 
@@ -22,5 +23,6 @@ These can also be obtained from the following debian packages:
 * libpoe-perl
 * libjson-maybexs-perl
 * libxml-simple-perl
+* libschedule-cron-perl
 * libtest-simple-perl
 * libdevel-cover-perl

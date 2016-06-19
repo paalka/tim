@@ -7,6 +7,7 @@ The bot is configured by creating a file called `local.config.pm` in the
 ### Modules
 * Weather.pm - Obtains a short weather report from the Norwegian weather forecasting
   site Yr.no.
+* AtB.pm - Obtains bus route information from the Norwegian bus service AtB.
 
 ### Dependencies:
 * POE::Component::IRC

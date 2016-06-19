@@ -114,11 +114,14 @@ sub send_msg {
     my ($who, $msg, $channel, $heap) = @_;
     my $irc = get_irc_component($heap);
 
-    if (defined($who)) {
-        $msg = $who . ": " . $msg;
-    }
+    my @msg_lines = split("\n", $msg);
 
-    $irc->yield(privmsg => $channel => $msg);
+    foreach $msg (@msg_lines) {
+        if (defined($who)) {
+            $msg = $who . ": " . $msg;
+        }
+        $irc->yield(privmsg => $channel => $msg);
+    }
 
     return;
 }

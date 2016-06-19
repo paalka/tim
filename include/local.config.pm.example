@@ -13,22 +13,14 @@ our $command_handlers = {
 };
 
 # The list of channels to join.
-our @channels = ("#example1", "#example2");
+our @channels = ("#26b8dc33e6ff");
 
 # Which server the channels are located on.
-our $server = "irc.example.net";
+our $server = "irc.freenode.net";
 our $server_port = 6667;
 
-our $nick = "Your nick here";
+our $nick = "tim_the_bot";
 our $username = $nick;
-our $real_name = "Your name here";
-
-our $reconnect_wait_sec = 60;
-our $auto_ping_delay = 300;
-
-# Load the local config file, if it exists.
-eval {
-    require 'local.config.pm';
-};
+our $real_name = "Tim";
 
 1;

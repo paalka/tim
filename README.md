@@ -1,4 +1,4 @@
-Tim is a minimalistic IRC bot with a focus on modularity and reliability.
+Tim is a IRC bot with a focus on modularity and reliability.
 
 ### Configuration
 The bot is configured by creating a file called `local.config.pm` in the

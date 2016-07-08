@@ -5,7 +5,6 @@ use strict;
 use warnings;
 use utf8;
 
-use Modules::Weather;
 
 # Create the mapping between commands and functions.
 our $command_handlers = {

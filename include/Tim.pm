@@ -6,6 +6,7 @@ use utf8;
 
 use LWP::UserAgent;
 use Schedule::Cron;
+use Module::Refresh;
 
 package Tim;
 require 'config.pm';
@@ -72,6 +73,12 @@ sub log_message {
     my $msg = shift;
     my $current_time = scalar localtime;
     say "[$current_time] $msg";
+}
+
+sub reload_config {
+    my $refresher = Module::Refresh->new;
+    $refresher->refresh_module('local.config.pm');
+    return "The local config was refreshed!";
 }
 
 1;

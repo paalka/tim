@@ -10,6 +10,7 @@ use Modules::Weather;
 # Create the mapping between commands and functions.
 our $command_handlers = {
     "vær" => \&Modules::Weather::generate_weather_report,
+    "reload" => \&Tim::reload_config,
 };
 
 # The list of channels to join.

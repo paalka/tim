@@ -103,7 +103,7 @@ sub message_handler  {
       return;
   }
 
-  my $command_handler = $Tim::Config::command_handlers->{Encode::decode_utf8($cmd)};
+  my $command_handler = $Tim::Config::command_handlers{Encode::decode_utf8($cmd)};
   if (defined($command_handler)) {
       my $response = $command_handler->(@args);
       send_msg(undef, $response, $channel, $heap);

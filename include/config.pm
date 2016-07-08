@@ -5,12 +5,6 @@ use strict;
 use warnings;
 use utf8;
 
-
-# Create the mapping between commands and functions.
-our $command_handlers = {
-    "reload" => \&Tim::reload_config,
-};
-
 # The list of channels to join.
 our @channels = ("#example1", "#example2");
 
@@ -24,6 +18,11 @@ our $real_name = "Your name here";
 
 our $reconnect_wait_sec = 60;
 our $auto_ping_delay = 300;
+
+# Create the mapping between commands and functions.
+our %command_handlers = (
+    "reload" => \&Tim::reload_config,
+);
 
 # Load the local config file, if it exists.
 eval {

@@ -51,6 +51,7 @@ sub on_connect {
   for my $channel (@Tim::Config::channels) {
       Tim::log_message("Joining $channel...");
       $irc->yield(join => $channel);
+      Tim::log_message("Joined $channel!");
   }
 
   # Ensure that the bot pings itself every 'auto_ping_delay' seconds, so that
@@ -106,22 +107,24 @@ sub message_handler  {
   my $command_handler = $Tim::Config::command_handlers{Encode::decode_utf8($cmd)};
   if (defined($command_handler)) {
       my $response = $command_handler->(@args);
-      send_msg(undef, $response, $channel, $heap);
+      send_msg($nick, $response, $channel, $heap);
   } else {
-      send_msg(undef, "Unrecognized command! Write !help to show the available commands.", $channel, $heap);
+      send_msg($nick, "Unrecognized command! Write !help to show the available commands.", $channel, $heap);
   }
 }
 
 sub send_msg {
-    my ($who, $msg, $channel, $heap) = @_;
+    my ($sender_nick, $msg, $channel, $heap) = @_;
     my $irc = get_irc_component($heap);
 
     my @msg_lines = split("\n", $msg);
 
+    # This is a privmsg, so the channel is the senders nick.
+    if ($channel eq $Tim::Config::nick) {
+        $channel = $sender_nick;
+    }
+
     foreach $msg (@msg_lines) {
-        if (defined($who)) {
-            $msg = $who . ": " . $msg;
-        }
         $irc->yield(privmsg => $channel => $msg);
     }
 

@@ -21,7 +21,6 @@ our $auto_ping_delay = 300;
 
 # Create the mapping between commands and functions.
 our %command_handlers = (
-    "reload" => \&Tim::reload_config,
 );
 
 # Load the local config file, if it exists.

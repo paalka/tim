@@ -6,6 +6,19 @@ use warnings;
 use utf8;
 
 use Modules::Weather;
+use Modules::Reload;
+
+# Create the mapping between commands and functions.
+our %command_handlers = (
+    "reload" => {
+                    "handler" => \&Modules::Reload::reload_config,
+                    "help" => \&Modules::Reload::help,
+                },
+    "vær" =>    {
+                    "handler" => \&Modules::Weather::generate_weather_report,
+                    "help" => \&Modules::Weather::help,
+                }
+);
 
 # The list of channels to join.
 our @channels = ("#26b8dc33e6ff");
@@ -17,11 +30,5 @@ our $server_port = 6667;
 our $nick = "tim_the_bot";
 our $username = $nick;
 our $real_name = "Tim";
-
-# Create the mapping between commands and functions.
-our %command_handlers = (
-    "vær" => \&Modules::Weather::generate_weather_report,
-    "reload" => \&Tim::reload_config,
-);
 
 1;

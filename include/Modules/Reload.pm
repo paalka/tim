@@ -15,7 +15,7 @@ sub reload_config {
 }
 
 sub argument_help {
-    return "none -- reloads the local configuration file (local.config.pm)";
+    return "-- reloads the local configuration file (local.config.pm)";
 }
 
 1;

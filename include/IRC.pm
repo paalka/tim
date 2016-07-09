@@ -104,13 +104,30 @@ sub message_handler  {
       return;
   }
 
-  my $command_handler = $Tim::Config::command_handlers{Encode::decode_utf8($cmd)}{"handler"};
+  my $command_handler = $Tim::Config::command_handlers{Encode::decode_utf8($cmd)}{Tim::Config::HANDLER()};
   if (defined($command_handler)) {
       my $response = $command_handler->(@args);
       send_msg($nick, $response, $channel, $heap);
+  } elsif ($cmd eq Tim::Config::HELP()) {
+      print_command_handlers_help($nick, $channel, $heap);
   } else {
       send_msg($nick, "Unrecognized command! Write !help to show the available commands.", $channel, $heap);
   }
+}
+
+sub print_command_handlers_help {
+    my ($sender_nick, $channel, $heap) = @_;
+
+    foreach my $cmd_name (sort(keys %Tim::Config::command_handlers)) {
+        my $help_handler = $Tim::Config::command_handlers{$cmd_name}{Tim::Config::HELP()};
+
+        if (defined($help_handler)) {
+            my $help_msg = $help_handler->();
+            my $msg = "!$cmd_name $help_msg";
+
+            send_msg($sender_nick, $msg, $channel, $heap);
+        }
+    }
 }
 
 sub send_msg {

@@ -5,6 +5,9 @@ use strict;
 use warnings;
 use utf8;
 
+use constant HELP => "help";
+use constant HANDLER => "handler";
+
 # The list of channels to join.
 our @channels = ("#example1", "#example2");
 

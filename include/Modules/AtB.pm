@@ -24,4 +24,8 @@ sub ask_bus_oracle {
     return $oracle_response;
 }
 
+sub argument_help {
+    return "<question to the bus oracle>";
+}
+
 1;

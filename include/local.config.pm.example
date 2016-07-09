@@ -8,15 +8,18 @@ use utf8;
 use Modules::Weather;
 use Modules::Reload;
 
+use constant HELP => "help";
+use constant HANDLER => "handler";
+
 # Create the mapping between commands and functions.
 our %command_handlers = (
     "reload" => {
-                    "handler" => \&Modules::Reload::reload_config,
-                    "help" => \&Modules::Reload::help,
+                    HANDLER() => \&Modules::Reload::reload_config,
+                    HELP() => \&Modules::Reload::argument_help,
                 },
     "vær" =>    {
-                    "handler" => \&Modules::Weather::generate_weather_report,
-                    "help" => \&Modules::Weather::help,
+                    HANDLER() => \&Modules::Weather::generate_weather_report,
+                    HELP() => \&Modules::Weather::argument_help,
                 }
 );
 

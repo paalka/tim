@@ -68,4 +68,8 @@ sub generate_weather_report {
                                                              $rain_mm);
 }
 
+sub argument_help {
+    return "<location>";
+}
+
 1;

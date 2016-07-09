@@ -14,4 +14,8 @@ sub reload_config {
     return "The local config was refreshed!";
 }
 
+sub argument_help {
+    return "none -- reloads the local configuration file (local.config.pm)";
+}
+
 1;

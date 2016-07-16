@@ -106,8 +106,10 @@ sub message_handler  {
 
   my $command_handler = $Tim::Config::command_handlers{Encode::decode_utf8($cmd)}{Tim::Config::HANDLER()};
   if (defined($command_handler)) {
-      my $response = $command_handler->(@args);
-      send_msg($nick, $response, $channel, $heap);
+      eval {
+          my $response = $command_handler->(@args);
+          send_msg($nick, $response, $channel, $heap);
+      }; send_msg($nick, $@, $channel, $heap) if $@;
   } elsif ($cmd eq Tim::Config::HELP()) {
       print_command_handlers_help($nick, $channel, $heap);
   } else {

@@ -13,9 +13,9 @@ use lib '../';
 use Tim;
 
 sub ask_bus_oracle {
-    my $question = shift;
+    return 'Invalid question! Usage: !<command> $question.' unless (@_);
 
-    return 'Invalid question! Usage: !<command> $question.' unless (defined($question));
+    my $question = join(' ', @_);
 
     my $base_url = 'https://www.atb.no/xmlhttprequest.php?service=routeplannerOracle.getOracleAnswer&question=';
     my $url = $base_url . $question;

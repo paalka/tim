@@ -9,7 +9,6 @@ use POE qw(Component::IRC);
 use Tim;
 
 my $irc = POE::Component::IRC->spawn();
-my $cron = Tim::init_scheduler();
 
 Tim::log_message("Creating session...");
 POE::Session->create(
@@ -24,7 +23,7 @@ POE::Session->create(
     irc_msg           => \&Tim::IRC::message_handler,
   },
   # Store the irc component in the heap, so that it is easily accessible.
-  heap => { irc => $irc, cron => $cron },
+  heap => { irc => $irc },
 );
 
 $poe_kernel->run();

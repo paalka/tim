@@ -5,7 +5,6 @@ use warnings;
 use utf8;
 
 use LWP::UserAgent;
-use Schedule::Cron;
 
 package Tim;
 require 'config.pm';
@@ -54,18 +53,6 @@ sub make_request {
     }
 
     return $resp->decoded_content;
-}
-
-# The function is invoked if no other subroutine is specified.
-sub default_dispatcher {
-    my ($id, @args) = @_;
-    log_message("CRON: ID: $id");
-    log_message("CRON: Args: @args");
-}
-
-sub init_scheduler {
-    my $cron = new Schedule::Cron(\&default_dispatcher);
-    return $cron;
 }
 
 sub log_message {

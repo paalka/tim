@@ -12,7 +12,6 @@ The bot is configured by creating a file called `local.config.pm` in the
 * POE::Component
 * JSON::MaybeXS
 * XML::Simple
-* Schedule::Cron
 * Module::Refresh
 
 ##### Testing

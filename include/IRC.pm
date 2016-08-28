@@ -136,15 +136,17 @@ sub send_msg {
     my ($sender_nick, $msg, $channel, $heap) = @_;
     my $irc = get_irc_component($heap);
 
-    my @msg_lines = split("\n", $msg);
+    if (defined($msg)) {
+        my @msg_lines = split("\n", $msg);
 
-    # This is a privmsg, so the channel is the senders nick.
-    if ($channel eq $Tim::Config::nick) {
-        $channel = $sender_nick;
-    }
+        # This is a privmsg, so the channel is the senders nick.
+        if ($channel eq $Tim::Config::nick) {
+            $channel = $sender_nick;
+        }
 
-    foreach $msg (@msg_lines) {
-        $irc->yield(privmsg => $channel => $msg);
+        foreach my $line (@msg_lines) {
+            $irc->yield(privmsg => $channel => $line);
+        }
     }
 
     return;

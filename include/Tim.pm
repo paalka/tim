@@ -40,10 +40,13 @@ sub parse_sender {
 }
 
 sub make_request {
-    my $url = shift;
+    my ($url, $user, $password) = @_;
 
     my $ua = LWP::UserAgent->new;
     my $req = HTTP::Request->new(GET => $url);
+    if (defined($user) and defined($password)) {
+        $req->authorization_basic($user, $password);
+    }
     my $resp = $ua->request($req);
 
     if ($resp->is_error) {

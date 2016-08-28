@@ -58,6 +58,7 @@ sub on_connect {
   # we avoid timeouts.
   $heap->{seen_traffic} = 1;
   $kernel->delay(autoping => $Tim::Config::auto_ping_delay);
+  $kernel->delay(periodic_tasks => $Tim::Config::periodic_tasks_delay);
 }
 
 # Ping ourself to avoid timeouts.
@@ -130,6 +131,11 @@ sub print_command_handlers_help {
             send_msg($sender_nick, $msg, $channel, $heap);
         }
     }
+}
+
+sub run_periodic_tasks {
+    my ($kernel, $heap) = @_[POE::Session::KERNEL, POE::Session::HEAP];
+    $kernel->delay(periodic_tasks => $Tim::Config::periodic_tasks_delay);
 }
 
 sub send_msg {

@@ -21,9 +21,13 @@ our $real_name = "Your name here";
 
 our $reconnect_wait_sec = 60;
 our $auto_ping_delay = 300;
+our $periodic_tasks_delay = 20;
 
 # Create the mapping between commands and functions.
 our %command_handlers = (
+);
+
+our @periodic_tasks = (
 );
 
 # Load the local config file, if it exists.
